@@ -30,7 +30,10 @@ MainWindow::MainWindow(QWidget *parent) :
     startX=70;
     startY=100;
     size=60;
+    startTime=100;
     MainWindow::flag=false;
+    startTimer(1000);
+    addTime=5;
 }
 
 MainWindow::~MainWindow()
@@ -59,7 +62,7 @@ void MainWindow::on_actionKaishi_triggered()
     ui->lblReset->setText(QString::number(newGame.getReset()));
     ui->lblScore->setText(QString::number(newGame.getScore()));
     ui->lblTip->setText(QString::number(newGame.getTip()));
-    ui->pbrTime->setValue(100);
+    ui->pbrTime->setValue(MainWindow::startTime);
     if(newGame.isPlaying())
     {
          QMessageBox::information(this, tr("警告"), QString(QObject::tr("游戏正在运行")));
@@ -105,7 +108,7 @@ void MainWindow::on_actionChognx_triggered()
     ui->lblReset->setText(QString::number(newGame.getReset()));
     ui->lblScore->setText(QString::number(newGame.getScore()));
     ui->lblTip->setText(QString::number(newGame.getTip()));
-    ui->pbrTime->setValue(100);
+    ui->pbrTime->setValue(startTime);
     int x=startX,y=startY;
     int *map=newGame.getMap();
     for(int i=0;i<newGame.getSize();i++)
@@ -133,6 +136,29 @@ void MainWindow::on_pushButton_clicked(bool checked)
     if(!newGame.canGetTip())
         return;
     ui->lblTip->setText(QString::number(newGame.getTip()));
+    int *map=newGame.getMyMap();
+    int temp=0;
+    for(int i=0;i<newGame.getSizeY();i++)
+        for(int j=0;j<newGame.getSizeX();j++)
+            if(map[i*newGame.MAX_Y+j]!=0)
+            {
+                temp=map[i*newGame.MAX_Y+j];
+                for(int k=i*newGame.MAX_Y+j+1;k<newGame.getSizeY()*newGame.MAX_Y;k++)
+                    if(temp==map[k])
+                    {
+                        int startX=i;
+                        int startY=j;
+                        int nextX=k%newGame.MAX_Y;
+                        int nextY=k/newGame.MAX_Y;
+                        if(newGame.canLink(startX,startY,nextX,nextY))
+                        {
+                            newGame.canGetTip();
+                            image[startY*newGame.getSizeX()+startX]->setPalette(QPalette(Qt::green));
+                            image[nextY*newGame.getSizeX()+nextX]->setPalette(QPalette(Qt::green));
+                            return;
+                        }
+                    }
+            }
 }
 
 //重排
@@ -192,6 +218,11 @@ void MainWindow::image_clicked()
             MainWindow::imageFirst=NULL;
             imageNext=NULL;
             MainWindow::flag=false;
+//            qDebug()<<ui->pbrTime->value();
+//            qDebug()<<ui->pbrTime->maximum();
+            if(ui->pbrTime->value()<=ui->pbrTime->maximum()-addTime)
+                 ui->pbrTime->setValue(ui->pbrTime->value()+addTime);
+//            qDebug()<<ui->pbrTime->value();
        }
        else
        {
@@ -224,3 +255,16 @@ void MainWindow::delImage()
             image[i*newGame.getSizeX()+j]=NULL;
         }
 }
+
+ void MainWindow::timerEvent(QTimerEvent *event)
+ {
+     if(newGame.isPlaying())
+     {
+         ui->pbrTime->setValue(ui->pbrTime->value()-1);
+         if(ui->pbrTime->value()==0)
+         {
+             newGame.setLose();
+             QMessageBox::information(this,"LOSE",QString(QObject::tr("分数："))+QString(QString::number(newGame.getScore())));
+         }
+     }
+ }

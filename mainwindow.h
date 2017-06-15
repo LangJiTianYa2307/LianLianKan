@@ -28,6 +28,7 @@ private slots:
     void on_pushButton_clicked(bool checked);
     void on_pushButton_2_clicked(bool checked);
     void image_clicked();
+    void timerEvent(QTimerEvent *event);
 private:
     Ui::MainWindow *ui;
     QMediaPlayer *player;
@@ -40,6 +41,8 @@ private:
     int size;
     bool flag;
     QPushButton *imageFirst;
+    int startTime;  //设置初始时间
+    int addTime;
 };
 
 #endif // MAINWINDOW_H

@@ -205,6 +205,9 @@
     <property name="value">
      <number>0</number>
     </property>
+    <property name="invertedAppearance">
+     <bool>false</bool>
+    </property>
     <property name="textDirection">
      <enum>QProgressBar::TopToBottom</enum>
     </property>

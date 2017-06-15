@@ -10,8 +10,8 @@ Game::Game()
     GameScore=0;
     GameLevel=1;
     GameReset=3;
-    sizeX=10;
-    sizeY=10;
+    sizeX=4;
+    sizeY=4;
     memset(map,0,sizeof(map));
     memset(myMap,0,sizeof(myMap));
     memset(used,0,sizeof(used));
