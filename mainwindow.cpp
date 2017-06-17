@@ -152,7 +152,6 @@ void MainWindow::on_pushButton_clicked(bool checked)
                         int nextY=k/newGame.MAX_Y;
                         if(newGame.canLink(startX,startY,nextX,nextY))
                         {
-                            newGame.canGetTip();
                             image[startY*newGame.getSizeX()+startX]->setPalette(QPalette(Qt::green));
                             image[nextY*newGame.getSizeX()+nextX]->setPalette(QPalette(Qt::green));
                             return;

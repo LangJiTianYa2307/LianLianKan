@@ -275,10 +275,10 @@ bool Game::canLink(int startX,int startY,int nextX,int nextY)
             Game::find_buttom(startX,startY);
             Game::Dir_FirstVertical=Game::Dir;
             Game::Dir_FirstVertical.push_back(startY);
-//            qDebug()<<"-----------";
-//            for(int i=0;i<Dir_FirstVertical.size();i++)
-//                qDebug()<<Dir_FirstVertical[i];
-//            qDebug()<<"-----------";
+            qDebug()<<"-----------";
+            for(int i=0;i<Dir_FirstVertical.size();i++)
+                qDebug()<<Dir_FirstVertical[i];
+            qDebug()<<"-----------";
 
 
             Game::Dir.erase(Dir.begin(),Dir.end());
@@ -288,10 +288,10 @@ bool Game::canLink(int startX,int startY,int nextX,int nextY)
             Game::Dir_NextVertical=Game::Dir;
             Game::Dir_NextVertical.push_back(nextY);
 
-//            qDebug()<<"-----------";
-//            for(int i=0;i<Dir_NextVertical.size();i++)
-//                qDebug()<<Dir_NextVertical[i];
-//            qDebug()<<"-----------";
+            qDebug()<<"-----------";
+            for(int i=0;i<Dir_NextVertical.size();i++)
+                qDebug()<<Dir_NextVertical[i];
+            qDebug()<<"-----------";
 
             Game::Dir.erase(Dir.begin(),Dir.end());
 
